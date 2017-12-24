@@ -1,0 +1,103 @@
+.buttons {
+    display: inline-block;
+    position: relative;
+    top: 66vh;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+img {
+    height: 25vh;
+    margin: 0 5px;
+}
+.playerContainer {
+    position: relative;
+    top: 60vh;
+    text-align: center;
+}
+.turnDone {
+    opacity: .5;
+}
+.dealerContainer {
+    position: absolute;
+    margin: auto;
+    left: 50%;
+    top: 2%;
+    transform: translateX(-50%);
+}
+.dealerChips {
+    top: 28%;
+    position: absolute;
+    left: 30%;
+}
+.playerChips {
+    position: absolute;
+    top: 56%;
+    left: 31%;
+}
+.betContainer {
+    position: absolute;
+    top: 55%;
+    left: 67%;
+    transform: translate(-50%,-50%);
+}
+
+
+/* entire container, keeps perspective */
+.flip-container {
+    perspective: 1000px;
+}
+/* flip the pane when hovered */
+.flip {
+    transform: rotateY(180deg);
+}
+
+.flip-container {
+    display: inline-block;
+    width: 8vw;
+}
+
+.flip-container, .front, .back {
+    /*width: 25vh;*/
+    height: 25vh;
+    margin: 0 5px;
+}
+
+/* flip speed goes here */
+.flipper {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+    backface-visibility: hidden;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+    z-index: 2;
+    /* for firefox 31 */
+    transform: rotateY(0deg);
+    height: 25vh;
+    width: 8vw;
+}
+.frontImg {
+    background-image: url(./images/playingcardback.png);
+    background-size: 100%;
+    border-radius: 5%;
+    height: 25vh;
+}
+/* back, initially hidden pane */
+.back {
+    transform: rotateY(180deg);
+}
+/*.frontImg {*/
+    /*background-image: url('./images/playingcardback.png');*/
+/*}*/
