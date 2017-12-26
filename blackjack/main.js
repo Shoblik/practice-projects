@@ -14,7 +14,7 @@ $(document).ready(function() {
         if (playerArr[playerTurn_i].chips >= bet && bet > 0 && bet !== '') {
             playerArr[playerTurn_i].bet = Number(bet);
             playerArr[playerTurn_i].chips = playerArr[playerTurn_i].chips - bet;
-            $('.cardContainer .flipper').addClass('flip');
+            $('.innerContainer .flip-container .flipper').addClass('flip');
             $('.playerChips').text('Simon\'s Chips: ' + playerArr[playerTurn_i].chips);
         }
     });
@@ -106,7 +106,7 @@ $(document).ready(function() {
         deck.deckArray.splice(0,1);
 
         if (playerArr[playerTurn_i].name !== 'Dealer') {
-            renderCardsOnDOM($('.cardContainer img').length, 'flip');
+            renderCardsOnDOM($('.innerContainer img').length, 'flip');
         } else {
             renderDealerCardsOnDOM($('.dealerContainer img').length, 'flip');
         }
@@ -123,13 +123,15 @@ $(document).ready(function() {
             let back = $('<div>').addClass('back');
             let backImg = $('<img>').attr('src', 'images/'+playerArr[playerArr.length - 1].cards[card_i].val+playerArr[playerArr.length - 1].cards[card_i].suit+'.png');
             let frontImg = $('<div>').addClass('frontImg');
+            // let score = $('<h3>').text(0).addClass('playerScore');
+
 
             $(front).append(frontImg);
             $(back).append(backImg);
             $(flipper).append(front, back);
             $(flipContainer).append(flipper);
 
-            $('.dealerContainer').append(flipContainer);
+            $('.innerDealerContainer').append(flipContainer);
         }
     }
 
@@ -153,7 +155,7 @@ $(document).ready(function() {
             $(flipContainer).append(flipper);
 
 
-            $($('.cardContainer')[playerTurn_i]).append(flipContainer);
+            $($('.innerContainer')[playerTurn_i]).append(flipContainer);
         }
 
     }
@@ -193,6 +195,11 @@ $(document).ready(function() {
             playerArr[playerTurn_i].score = valCount;
             console.log(playerArr[playerTurn_i]);
         }
+        if (playerTurn_i === 0) {
+            $('.playerScore').text(playerArr[playerTurn_i].score);
+        } else {
+            $('.dealerScore').text(playerArr[playerArr.length - 1].score);
+        }
     }
     function dealersTurn() {
         $('.dealerContainer .flipper').addClass('flip');
@@ -207,7 +214,7 @@ $(document).ready(function() {
     }
     function winCheck() {
         for (let i = 0; i<playerArr.length - 1; i++) {
-            if (playerArr[i].score === playerArr[playerArr.length - 1].score) {
+            if (playerArr[i].score <= playerArr[playerArr.length - 1].score) {
                 console.log('Loss');
                 playerArr[playerArr.length - 1].chips += playerArr[i].bet;
                 $('.dealerChips').text('Dealer Chips: ' + playerArr[playerArr.length - 1].chips);
@@ -215,13 +222,17 @@ $(document).ready(function() {
             else if (playerArr[i].score > playerArr[playerArr.length - 1].score) {
                 console.log('WIN');
                 playerArr[i].chips += (playerArr[i].bet * 2);
+                playerArr[playerArr.length - 1].chips -= playerArr[i].bet;
+                $('.dealerChips').text('Dealer\'s Chips: ' + playerArr[playerArr.length - 1].chips);
                 $('.playerChips').text('Simon\'s Chips: ' + playerArr[i].chips);
             }
         }
 
+
+
         const newRoundTimeout = setTimeout(function() {
-            $('.cardContainer').empty();
-            $('.dealerContainer').empty();
+            $('.innerContainer').empty();
+            $('.innerDealerContainer').empty();
             playerTurn_i = 0;
             for (let i=0; i<playerArr.length; i++) {
                 playerArr[i].score = null;
@@ -230,7 +241,7 @@ $(document).ready(function() {
             }
             dealCards(2);
             clearTimeout(newRoundTimeout);
-        }, 2000);
+        }, 3000);
 
     }
 
